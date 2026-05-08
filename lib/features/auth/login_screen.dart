@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../app/theme.dart';
 import '../../shared/widgets/brand_mark.dart';
+import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
 import '../dashboard/main_shell.dart';
 
@@ -59,7 +60,12 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: () => showInfoSheet(
+                        context,
+                        title: 'Google Sign-In',
+                        message:
+                            'Google authentication is not configured in this demo build yet. Use Sign In to continue through the app.',
+                      ),
                       icon: const Icon(Icons.g_mobiledata_rounded, size: 30),
                       label: const Text('Continue with Google'),
                     ),
@@ -68,11 +74,21 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => showInfoSheet(
+                            context,
+                            title: 'Reset Password',
+                            message:
+                                'Password reset would normally send a recovery link or OTP to the account contact.',
+                          ),
                           child: const Text('Forgot password?'),
                         ),
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () => showInfoSheet(
+                            context,
+                            title: 'Create Account',
+                            message:
+                                'Account creation is not wired to a backend in this demo build yet.',
+                          ),
                           child: const Text('Create account'),
                         ),
                       ],

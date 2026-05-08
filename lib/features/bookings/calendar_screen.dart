@@ -7,8 +7,22 @@ import '../../shared/widgets/premium_card.dart';
 import '../../shared/widgets/status_chip.dart';
 import 'new_booking_screen.dart';
 
-class CalendarScreen extends StatelessWidget {
+class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
+
+  @override
+  State<CalendarScreen> createState() => _CalendarScreenState();
+}
+
+class _CalendarScreenState extends State<CalendarScreen> {
+  static const _staffOptions = ['All staff', 'Maya Perera', 'Dilan Jay'];
+  static const _serviceOptions = ['All services', 'Hair', 'Beard', 'Skin'];
+
+  int _monthOffset = 0;
+  String _selectedView = 'Day';
+  int _selectedDateIndex = 2;
+  String _selectedStaff = _staffOptions.first;
+  String _selectedService = _serviceOptions.first;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +39,14 @@ class CalendarScreen extends StatelessWidget {
             Row(
               children: [
                 IconButton.filledTonal(
-                  onPressed: () {},
+                  onPressed: () => setState(() => _monthOffset--),
                   icon: const Icon(Icons.chevron_left_rounded),
                 ),
-                const Expanded(
+                Expanded(
                   child: Center(
                     child: Text(
-                      'April 2026',
-                      style: TextStyle(
+                      _monthLabel,
+                      style: const TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.w900,
                       ),
@@ -40,7 +54,7 @@ class CalendarScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton.filledTonal(
-                  onPressed: () {},
+                  onPressed: () => setState(() => _monthOffset++),
                   icon: const Icon(Icons.chevron_right_rounded),
                 ),
               ],
@@ -52,16 +66,21 @@ class CalendarScreen extends StatelessWidget {
                 ButtonSegment(value: 'Week', label: Text('Week')),
                 ButtonSegment(value: 'Month', label: Text('Month')),
               ],
-              selected: const {'Day'},
-              onSelectionChanged: (_) {},
+              selected: {_selectedView},
+              onSelectionChanged: (selection) {
+                setState(() => _selectedView = selection.first);
+              },
             ),
             const SizedBox(height: 18),
             SizedBox(
               height: 74,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) =>
-                    DateChip(text: calendarDates[index], selected: index == 2),
+                itemBuilder: (context, index) => DateChip(
+                  text: calendarDates[index],
+                  selected: index == _selectedDateIndex,
+                  onTap: () => setState(() => _selectedDateIndex = index),
+                ),
                 separatorBuilder: (context, index) => const SizedBox(width: 10),
                 itemCount: calendarDates.length,
               ),
@@ -72,15 +91,26 @@ class CalendarScreen extends StatelessWidget {
                 Expanded(
                   child: FilterPill(
                     icon: Icons.person_search_rounded,
-                    text: 'All staff',
-                    onTap: () {},
+                    text: _selectedStaff,
+                    onTap: () => _pickOption(
+                      title: 'Filter by Staff',
+                      options: _staffOptions,
+                      currentValue: _selectedStaff,
+                      onSelected: (value) => setState(() => _selectedStaff = value),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
                 FilterPill(
                   icon: Icons.tune_rounded,
-                  text: 'Service',
-                  onTap: () {},
+                  text: _selectedService,
+                  onTap: () => _pickOption(
+                    title: 'Filter by Service',
+                    options: _serviceOptions,
+                    currentValue: _selectedService,
+                    onSelected: (value) =>
+                        setState(() => _selectedService = value),
+                  ),
                 ),
               ],
             ),
@@ -132,30 +162,108 @@ class CalendarScreen extends StatelessWidget {
       ),
     );
   }
+
+  String get _monthLabel {
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    const baseMonth = 4;
+    const baseYear = 2026;
+    final totalMonths = (baseMonth - 1) + _monthOffset;
+    final year = baseYear + (totalMonths ~/ 12);
+    final monthIndex = ((totalMonths % 12) + 12) % 12;
+    return '${months[monthIndex]} $year';
+  }
+
+  Future<void> _pickOption({
+    required String title,
+    required List<String> options,
+    required String currentValue,
+    required ValueChanged<String> onSelected,
+  }) async {
+    final selected = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 12),
+              child: Text(
+                title,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            for (final option in options)
+              ListTile(
+                title: Text(option),
+                trailing: option == currentValue
+                    ? Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () => Navigator.of(context).pop(option),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (selected != null) {
+      onSelected(selected);
+      if (mounted) {
+        showAppMessage(context, '$title updated to $selected');
+      }
+    }
+  }
 }
 
 class DateChip extends StatelessWidget {
-  const DateChip({super.key, required this.text, required this.selected});
+  const DateChip({
+    super.key,
+    required this.text,
+    required this.selected,
+    required this.onTap,
+  });
 
   final String text;
   final bool selected;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 70,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: selected ? Theme.of(context).colorScheme.primary : Colors.white,
-        borderRadius: BorderRadius.circular(22),
-        border: Border.all(color: AppColors.line),
-      ),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          color: selected ? Colors.white : AppColors.ink,
-          fontWeight: FontWeight.w900,
+    return InkWell(
+      borderRadius: BorderRadius.circular(22),
+      onTap: onTap,
+      child: Container(
+        width: 70,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: selected ? Theme.of(context).colorScheme.primary : Colors.white,
+          borderRadius: BorderRadius.circular(22),
+          border: Border.all(color: AppColors.line),
+        ),
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: selected ? Colors.white : AppColors.ink,
+            fontWeight: FontWeight.w900,
+          ),
         ),
       ),
     );
@@ -194,6 +302,7 @@ class FilterPill extends StatelessWidget {
             Flexible(
               child: Text(
                 text,
+                overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontWeight: FontWeight.w800),
               ),
             ),

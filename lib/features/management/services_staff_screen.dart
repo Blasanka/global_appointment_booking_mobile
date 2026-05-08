@@ -23,7 +23,21 @@ class ServicesStaffScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Services & Staff'),
           actions: [
-            IconButton(onPressed: () {}, icon: const Icon(Icons.add_rounded)),
+            Builder(
+              builder: (context) => IconButton(
+                onPressed: () {
+                  final tabIndex = DefaultTabController.of(context).index;
+                  showInfoSheet(
+                    context,
+                    title: tabIndex == 0 ? 'Add Service' : 'Add Staff Member',
+                    message: tabIndex == 0
+                        ? 'Service creation would save a new item with duration and pricing.'
+                        : 'Staff creation would save a new team member profile and availability.',
+                  );
+                },
+                icon: const Icon(Icons.add_rounded),
+              ),
+            ),
           ],
           bottom: const TabBar(
             tabs: [
@@ -66,6 +80,10 @@ class ServiceCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
+        onTap: () => showAppMessage(
+          context,
+          'Opened ${service.name} pricing details.',
+        ),
         leading: const CircleIcon(
           icon: Icons.spa_rounded,
           color: AppColors.blue,
@@ -103,6 +121,10 @@ class StaffCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ListTile(
         contentPadding: EdgeInsets.zero,
+        onTap: () => showAppMessage(
+          context,
+          'Viewing ${staffMember.name} availability.',
+        ),
         leading: CircleAvatar(
           radius: 26,
           child: Text(initials(staffMember.name)),

@@ -52,7 +52,10 @@ class ClientDetailScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: () => showAppMessage(
+                            context,
+                            'Prepared WhatsApp message for ${client.name}.',
+                          ),
                           icon: const Icon(Icons.chat_rounded),
                           label: const Text('WhatsApp'),
                         ),
@@ -60,7 +63,10 @@ class ClientDetailScreen extends StatelessWidget {
                       const SizedBox(width: 10),
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: () => showAppMessage(
+                            context,
+                            'Dialing ${client.phone} is not connected in this demo build.',
+                          ),
                           icon: const Icon(Icons.call_rounded),
                           label: const Text('Call'),
                         ),
@@ -73,17 +79,11 @@ class ClientDetailScreen extends StatelessWidget {
             const SizedBox(height: 14),
             const Row(
               children: [
-                Expanded(
-                  child: MiniStat(value: '12', label: 'Visits'),
-                ),
+                Expanded(child: MiniStat(value: '12', label: 'Visits')),
                 SizedBox(width: 10),
-                Expanded(
-                  child: MiniStat(value: 'LKR 92k', label: 'Spent'),
-                ),
+                Expanded(child: MiniStat(value: 'LKR 92k', label: 'Spent')),
                 SizedBox(width: 10),
-                Expanded(
-                  child: MiniStat(value: 'Apr 18', label: 'Last'),
-                ),
+                Expanded(child: MiniStat(value: 'Apr 18', label: 'Last')),
               ],
             ),
             const SizedBox(height: 18),

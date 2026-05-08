@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import '../../app/theme.dart';
 import '../../shared/widgets/metric_card.dart';
 import '../../shared/widgets/premium_card.dart';
+import '../../shared/widgets/helpers.dart';
 import '../bookings/calendar_screen.dart';
 
-class ReportsScreen extends StatelessWidget {
+class ReportsScreen extends StatefulWidget {
   const ReportsScreen({super.key});
+
+  @override
+  State<ReportsScreen> createState() => _ReportsScreenState();
+}
+
+class _ReportsScreenState extends State<ReportsScreen> {
+  String _selectedPeriod = 'This week · Apr 20 - Apr 26';
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +23,12 @@ class ReportsScreen extends StatelessWidget {
         title: const Text('Reports'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () => showInfoSheet(
+              context,
+              title: 'Export Report',
+              message:
+                  'A share action would normally export revenue and booking data. This demo confirms the action without generating a file.',
+            ),
             icon: const Icon(Icons.ios_share_rounded),
           ),
         ],
@@ -25,8 +38,8 @@ class ReportsScreen extends StatelessWidget {
         children: [
           FilterPill(
             icon: Icons.date_range_rounded,
-            text: 'This week · Apr 20 - Apr 26',
-            onTap: () {},
+            text: _selectedPeriod,
+            onTap: _pickPeriod,
           ),
           const SizedBox(height: 16),
           const Row(
@@ -103,6 +116,41 @@ class ReportsScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _pickPeriod() async {
+    final selected = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final period in const [
+              'Today · Apr 23',
+              'This week · Apr 20 - Apr 26',
+              'This month · Apr 1 - Apr 30',
+            ])
+              ListTile(
+                title: Text(period),
+                trailing: period == _selectedPeriod
+                    ? Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () => Navigator.of(context).pop(period),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (selected != null) {
+      setState(() => _selectedPeriod = selected);
+      if (mounted) {
+        showAppMessage(context, 'Report period changed to $selected.');
+      }
+    }
   }
 }
 

@@ -43,7 +43,10 @@ class DashboardScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton.filledTonal(
-                  onPressed: () {},
+                  onPressed: () => showAppMessage(
+                    context,
+                    'No new notifications right now.',
+                  ),
                   icon: const Icon(Icons.notifications_none_rounded),
                 ),
                 const SizedBox(width: 8),
@@ -90,13 +93,17 @@ class DashboardScreen extends StatelessWidget {
             ),
             const SizedBox(height: 28),
             SectionHeader(
-              title: 'Today’s Appointments',
+              title: 'Today\'s Appointments',
               action: 'View All',
-              onTap: () {},
+              onTap: () => showInfoSheet(
+                context,
+                title: 'Today\'s Schedule',
+                message:
+                    'You have ${todayBookings.length} active appointments on the dashboard today.',
+              ),
             ),
             const SizedBox(height: 12),
-            for (final booking in todayBookings)
-              AppointmentCard(booking: booking),
+            for (final booking in todayBookings) AppointmentCard(booking: booking),
             const SizedBox(height: 20),
             const Text(
               'Quick Actions',

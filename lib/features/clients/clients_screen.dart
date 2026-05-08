@@ -7,11 +7,27 @@ import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
 import 'client_detail_screen.dart';
 
-class ClientsScreen extends StatelessWidget {
+class ClientsScreen extends StatefulWidget {
   const ClientsScreen({super.key});
 
   @override
+  State<ClientsScreen> createState() => _ClientsScreenState();
+}
+
+class _ClientsScreenState extends State<ClientsScreen> {
+  final _searchController = TextEditingController();
+  final List<Client> _extraClients = [];
+  String _filter = 'All';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final visibleClients = _filteredClients;
     return Scaffold(
       appBar: AppBar(title: const Text('Clients')),
       body: ListView(
@@ -19,9 +35,11 @@ class ClientsScreen extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: TextField(
-                  decoration: InputDecoration(
+                  controller: _searchController,
+                  onChanged: (_) => setState(() {}),
+                  decoration: const InputDecoration(
                     prefixIcon: Icon(Icons.search_rounded),
                     hintText: 'Search clients',
                   ),
@@ -29,21 +47,97 @@ class ClientsScreen extends StatelessWidget {
               ),
               const SizedBox(width: 10),
               IconButton.filledTonal(
-                onPressed: () {},
+                onPressed: _pickFilter,
                 icon: const Icon(Icons.tune_rounded),
               ),
               const SizedBox(width: 10),
               IconButton.filled(
-                onPressed: () {},
+                onPressed: _addClient,
                 icon: const Icon(Icons.add_rounded),
               ),
             ],
           ),
+          const SizedBox(height: 12),
+          Text(
+            'Filter: $_filter',
+            style: const TextStyle(
+              color: AppColors.muted,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           const SizedBox(height: 16),
-          for (final client in clients) ClientListCard(client: client),
+          if (visibleClients.isEmpty)
+            const PremiumCard(
+              child: Text('No clients match the current search and filter.'),
+            ),
+          for (final client in visibleClients) ClientListCard(client: client),
         ],
       ),
     );
+  }
+
+  List<Client> get _filteredClients {
+    final query = _searchController.text.trim().toLowerCase();
+    return [..._extraClients, ...clients].where((client) {
+      final matchesQuery =
+          query.isEmpty ||
+          client.name.toLowerCase().contains(query) ||
+          client.phone.toLowerCase().contains(query) ||
+          client.lastService.toLowerCase().contains(query);
+      final matchesFilter = switch (_filter) {
+        'Recent' => client.lastService.isNotEmpty,
+        'High Value' => client.totalSpent.contains('92') || client.totalSpent.contains('118'),
+        _ => true,
+      };
+      return matchesQuery && matchesFilter;
+    }).toList();
+  }
+
+  Future<void> _pickFilter() async {
+    final selected = await showModalBottomSheet<String>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final value in const ['All', 'Recent', 'High Value'])
+              ListTile(
+                title: Text(value),
+                trailing: value == _filter
+                    ? Icon(
+                        Icons.check_rounded,
+                        color: Theme.of(context).colorScheme.primary,
+                      )
+                    : null,
+                onTap: () => Navigator.of(context).pop(value),
+              ),
+          ],
+        ),
+      ),
+    );
+    if (selected != null) {
+      setState(() => _filter = selected);
+      if (mounted) {
+        showAppMessage(context, 'Client filter changed to $selected.');
+      }
+    }
+  }
+
+  Future<void> _addClient() async {
+    setState(() {
+      _extraClients.insert(
+        0,
+        const Client(
+          name: 'New Walk-in Client',
+          phone: '+94 75 101 2020',
+          lastService: 'Consultation',
+          visits: '1 visit',
+          totalSpent: 'LKR 0',
+        ),
+      );
+    });
+    showAppMessage(context, 'Client draft added to the list.');
   }
 }
 
