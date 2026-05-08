@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../app/salon_store.dart';
 import '../../app/theme.dart';
 import '../../shared/data/mock_data.dart';
 import '../../shared/widgets/helpers.dart';
@@ -26,6 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final store = SalonStoreScope.of(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => pushScreen(context, const NewBookingScreen()),
@@ -157,6 +159,51 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 }),
               ),
             ),
+            const SizedBox(height: 18),
+            const Text(
+              'Bookings for the Day',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
+            ),
+            const SizedBox(height: 12),
+            for (final booking in store.bookings.take(5))
+              PremiumCard(
+                margin: const EdgeInsets.only(bottom: 10),
+                padding: const EdgeInsets.all(14),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            booking.clientName,
+                            style: const TextStyle(fontWeight: FontWeight.w900),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${booking.serviceName} · ${booking.staffName}',
+                            style: const TextStyle(color: AppColors.muted),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          booking.time,
+                          style: const TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(height: 6),
+                        StatusChip(
+                          label: booking.status,
+                          color: booking.statusColor,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
           ],
         ),
       ),

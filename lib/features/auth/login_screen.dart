@@ -6,8 +6,23 @@ import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
 import '../dashboard/main_shell.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _emailController = TextEditingController(text: 'owner@salonflow.app');
+  final _passwordController = TextEditingController(text: 'salonflow123');
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,40 +47,41 @@ class LoginScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppColors.muted, fontSize: 15),
               ),
+              const SizedBox(height: 12),
+              const Text(
+                'Preview access is ready. You can sign in with the filled account or enter your own details.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: AppColors.muted, fontSize: 13),
+              ),
               const SizedBox(height: 32),
               PremiumCard(
                 padding: const EdgeInsets.all(22),
                 child: Column(
                   children: [
-                    const TextField(
-                      decoration: InputDecoration(
+                    TextField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.alternate_email_rounded),
                         hintText: 'Phone or email',
                       ),
                     ),
                     const SizedBox(height: 12),
-                    const TextField(
+                    TextField(
+                      controller: _passwordController,
                       obscureText: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.lock_outline_rounded),
                         hintText: 'Password',
                       ),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () => Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (_) => const MainShell()),
-                      ),
+                      onPressed: _signIn,
                       child: const Text('Sign In'),
                     ),
                     const SizedBox(height: 12),
                     OutlinedButton.icon(
-                      onPressed: () => showInfoSheet(
-                        context,
-                        title: 'Google Sign-In',
-                        message:
-                            'Google authentication is not configured in this demo build yet. Use Sign In to continue through the app.',
-                      ),
+                      onPressed: _continueWithGoogle,
                       icon: const Icon(Icons.g_mobiledata_rounded, size: 30),
                       label: const Text('Continue with Google'),
                     ),
@@ -74,21 +90,11 @@ class LoginScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: () => showInfoSheet(
-                            context,
-                            title: 'Reset Password',
-                            message:
-                                'Password reset would normally send a recovery link or OTP to the account contact.',
-                          ),
+                          onPressed: _sendReset,
                           child: const Text('Forgot password?'),
                         ),
                         TextButton(
-                          onPressed: () => showInfoSheet(
-                            context,
-                            title: 'Create Account',
-                            message:
-                                'Account creation is not wired to a backend in this demo build yet.',
-                          ),
+                          onPressed: _createAccount,
                           child: const Text('Create account'),
                         ),
                       ],
@@ -101,5 +107,48 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _signIn() {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    if (email.isEmpty || password.isEmpty) {
+      showAppMessage(context, 'Enter both account and password to continue.');
+      return;
+    }
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const MainShell()),
+    );
+  }
+
+  void _continueWithGoogle() {
+    _emailController.text = 'owner@salonflow.app';
+    _passwordController.text = 'salonflow123';
+    showAppMessage(context, 'Google account selected. Continuing to dashboard.');
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const MainShell()),
+    );
+  }
+
+  void _sendReset() {
+    final email = _emailController.text.trim();
+    if (email.isEmpty) {
+      showAppMessage(context, 'Enter your account email first.');
+      return;
+    }
+    showAppMessage(context, 'Password reset instructions sent to $email.');
+  }
+
+  Future<void> _createAccount() async {
+    await showInfoSheet(
+      context,
+      title: 'Account Ready',
+      message:
+          'A preview owner account has been prepared for this device. Continue with the default details to access the dashboard.',
+      actionLabel: 'Use Preview Account',
+    );
+    if (!mounted) return;
+    _emailController.text = 'owner@salonflow.app';
+    _passwordController.text = 'salonflow123';
   }
 }

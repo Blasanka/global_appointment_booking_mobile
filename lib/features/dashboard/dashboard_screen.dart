@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app/salon_store.dart';
 import '../../app/theme.dart';
-import '../../shared/data/mock_data.dart';
 import '../../shared/models/booking.dart';
 import '../../shared/widgets/action_tile.dart';
 import '../../shared/widgets/helpers.dart';
@@ -18,6 +18,7 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final store = SalonStoreScope.of(context);
     return Scaffold(
       body: SafeArea(
         child: ListView(
@@ -61,31 +62,31 @@ class DashboardScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 24),
-            const Row(
+            Row(
               children: [
                 Expanded(
                   child: MetricCard(
                     icon: Icons.event_available_rounded,
-                    value: '12',
+                    value: '${store.bookings.length}',
                     label: 'Bookings',
                     color: AppColors.blue,
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: MetricCard(
                     icon: Icons.payments_rounded,
-                    value: 'LKR 28,500',
+                    value: store.totalRevenue,
                     label: 'Revenue',
                     color: AppColors.green,
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 12),
                 Expanded(
                   child: MetricCard(
                     icon: Icons.schedule_rounded,
-                    value: '3',
-                    label: 'Slots',
+                    value: '${store.confirmedBookings}',
+                    label: 'Confirmed',
                     color: AppColors.amber,
                   ),
                 ),
@@ -99,11 +100,12 @@ class DashboardScreen extends StatelessWidget {
                 context,
                 title: 'Today\'s Schedule',
                 message:
-                    'You have ${todayBookings.length} active appointments on the dashboard today.',
+                    'You have ${store.bookings.length} active appointments on the dashboard today.',
               ),
             ),
             const SizedBox(height: 12),
-            for (final booking in todayBookings) AppointmentCard(booking: booking),
+            for (final booking in store.bookings)
+              AppointmentCard(booking: booking),
             const SizedBox(height: 20),
             const Text(
               'Quick Actions',

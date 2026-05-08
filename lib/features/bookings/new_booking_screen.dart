@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../app/salon_store.dart';
 import '../../shared/data/mock_data.dart';
 import '../../shared/widgets/form_widgets.dart';
 import '../../shared/widgets/helpers.dart';
@@ -205,10 +206,23 @@ class _NewBookingScreenState extends State<NewBookingScreen> {
 
   void _confirmBooking() {
     final clientName = _clientController.text.trim();
+    final clientPhone = _phoneController.text.trim();
     if (clientName.isEmpty) {
       showAppMessage(context, 'Enter a client name before confirming.');
       return;
     }
+    if (clientPhone.isEmpty) {
+      showAppMessage(context, 'Enter a client phone number before confirming.');
+      return;
+    }
+    SalonStoreScope.of(context).addBooking(
+      clientName: clientName,
+      clientPhone: clientPhone,
+      serviceName: _selectedService,
+      staffName: _staffName,
+      time: _selectedSlot,
+      price: _price,
+    );
     showAppMessage(
       context,
       'Booking created for $clientName at $_selectedSlot with $_staffName.',

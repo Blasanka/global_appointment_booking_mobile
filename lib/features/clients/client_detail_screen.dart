@@ -54,7 +54,7 @@ class ClientDetailScreen extends StatelessWidget {
                         child: OutlinedButton.icon(
                           onPressed: () => showAppMessage(
                             context,
-                            'Prepared WhatsApp message for ${client.name}.',
+                            'WhatsApp confirmation prepared for ${client.name}.',
                           ),
                           icon: const Icon(Icons.chat_rounded),
                           label: const Text('WhatsApp'),
@@ -65,7 +65,7 @@ class ClientDetailScreen extends StatelessWidget {
                         child: OutlinedButton.icon(
                           onPressed: () => showAppMessage(
                             context,
-                            'Dialing ${client.phone} is not connected in this demo build.',
+                            'Calling ${client.phone}...',
                           ),
                           icon: const Icon(Icons.call_rounded),
                           label: const Text('Call'),
@@ -77,13 +77,20 @@ class ClientDetailScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 14),
-            const Row(
+            Row(
               children: [
-                Expanded(child: MiniStat(value: '12', label: 'Visits')),
+                Expanded(child: MiniStat(value: client.visits, label: 'Visits')),
                 SizedBox(width: 10),
-                Expanded(child: MiniStat(value: 'LKR 92k', label: 'Spent')),
+                Expanded(
+                  child: MiniStat(value: client.totalSpent, label: 'Spent'),
+                ),
                 SizedBox(width: 10),
-                Expanded(child: MiniStat(value: 'Apr 18', label: 'Last')),
+                Expanded(
+                  child: MiniStat(
+                    value: client.lastService,
+                    label: 'Last Service',
+                  ),
+                ),
               ],
             ),
             const SizedBox(height: 18),

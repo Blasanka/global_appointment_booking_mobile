@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../app/salon_store.dart';
 import '../../app/theme.dart';
-import '../../shared/data/mock_data.dart';
 import '../../shared/models/client.dart';
 import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
@@ -16,7 +16,6 @@ class ClientsScreen extends StatefulWidget {
 
 class _ClientsScreenState extends State<ClientsScreen> {
   final _searchController = TextEditingController();
-  final List<Client> _extraClients = [];
   String _filter = 'All';
 
   @override
@@ -77,8 +76,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
   }
 
   List<Client> get _filteredClients {
+    final allClients = SalonStoreScope.of(context).clients;
     final query = _searchController.text.trim().toLowerCase();
-    return [..._extraClients, ...clients].where((client) {
+    return allClients.where((client) {
       final matchesQuery =
           query.isEmpty ||
           client.name.toLowerCase().contains(query) ||
@@ -125,18 +125,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
   }
 
   Future<void> _addClient() async {
-    setState(() {
-      _extraClients.insert(
-        0,
-        const Client(
-          name: 'New Walk-in Client',
-          phone: '+94 75 101 2020',
-          lastService: 'Consultation',
-          visits: '1 visit',
-          totalSpent: 'LKR 0',
-        ),
-      );
-    });
+    SalonStoreScope.of(context).addClient(
+      const Client(
+        name: 'New Walk-in Client',
+        phone: '+94 75 101 2020',
+        lastService: 'Consultation',
+        visits: '1 visit',
+        totalSpent: 'LKR 0',
+      ),
+    );
     showAppMessage(context, 'Client draft added to the list.');
   }
 }

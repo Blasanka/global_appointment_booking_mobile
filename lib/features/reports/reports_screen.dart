@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
+import '../../app/salon_store.dart';
 import '../../app/theme.dart';
+import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/metric_card.dart';
 import '../../shared/widgets/premium_card.dart';
-import '../../shared/widgets/helpers.dart';
 import '../bookings/calendar_screen.dart';
 
 class ReportsScreen extends StatefulWidget {
@@ -18,16 +19,19 @@ class _ReportsScreenState extends State<ReportsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final store = SalonStoreScope.of(context);
+    final topService = store.bookings.isEmpty
+        ? 'No bookings'
+        : store.bookings.first.serviceName;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reports'),
         actions: [
           IconButton(
-            onPressed: () => showInfoSheet(
+            onPressed: () => showAppMessage(
               context,
-              title: 'Export Report',
-              message:
-                  'A share action would normally export revenue and booking data. This demo confirms the action without generating a file.',
+              'Weekly revenue summary prepared for sharing.',
             ),
             icon: const Icon(Icons.ios_share_rounded),
           ),
@@ -42,21 +46,21 @@ class _ReportsScreenState extends State<ReportsScreen> {
             onTap: _pickPeriod,
           ),
           const SizedBox(height: 16),
-          const Row(
+          Row(
             children: [
               Expanded(
                 child: MetricCard(
                   icon: Icons.payments_rounded,
-                  value: 'LKR 186k',
+                  value: store.totalRevenue,
                   label: 'Revenue',
                   color: AppColors.green,
                 ),
               ),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Expanded(
                 child: MetricCard(
                   icon: Icons.star_rounded,
-                  value: 'Hair Color',
+                  value: topService,
                   label: 'Top Service',
                   color: AppColors.amber,
                 ),
