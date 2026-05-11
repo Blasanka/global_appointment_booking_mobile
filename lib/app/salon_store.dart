@@ -46,6 +46,75 @@ class SalonStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  void updateClient({
+    required String previousPhone,
+    required Client client,
+  }) {
+    final existingIndex = _clients.indexWhere(
+      (entry) => entry.phone == previousPhone,
+    );
+    if (existingIndex < 0) {
+      return;
+    }
+
+    _clients[existingIndex] = client;
+    notifyListeners();
+  }
+
+  void addService(Service service) {
+    final existingIndex = _services.indexWhere(
+      (entry) => entry.name == service.name,
+    );
+    if (existingIndex >= 0) {
+      _services[existingIndex] = service;
+    } else {
+      _services.insert(0, service);
+    }
+    notifyListeners();
+  }
+
+  void updateService({
+    required String previousName,
+    required Service service,
+  }) {
+    final existingIndex = _services.indexWhere(
+      (entry) => entry.name == previousName,
+    );
+    if (existingIndex < 0) {
+      return;
+    }
+
+    _services[existingIndex] = service;
+    notifyListeners();
+  }
+
+  void addStaffMember(StaffMember staffMember) {
+    final existingIndex = _staffMembers.indexWhere(
+      (entry) => entry.name == staffMember.name,
+    );
+    if (existingIndex >= 0) {
+      _staffMembers[existingIndex] = staffMember;
+    } else {
+      _staffMembers.insert(0, staffMember);
+    }
+    notifyListeners();
+  }
+
+  void updateStaffMember({
+    required String previousName,
+    required StaffMember staffMember,
+  }) {
+    final existingIndex = _staffMembers.indexWhere(
+      (entry) => entry.name == previousName,
+    );
+    if (existingIndex < 0) {
+      return;
+    }
+
+    _staffMembers[existingIndex] = staffMember;
+    notifyListeners();
+  }
+
   void addBooking({
     required String clientName,
     required String clientPhone,

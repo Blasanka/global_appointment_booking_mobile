@@ -1,22 +1,52 @@
 import 'package:flutter/material.dart';
 
+import '../../app/salon_store.dart';
 import '../../app/theme.dart';
 import '../../shared/models/client.dart';
 import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
 import '../bookings/new_booking_screen.dart';
+import 'client_editor_sheet.dart';
 
-class ClientDetailScreen extends StatelessWidget {
+class ClientDetailScreen extends StatefulWidget {
   const ClientDetailScreen({super.key, required this.client});
 
   final Client client;
 
   @override
+  State<ClientDetailScreen> createState() => _ClientDetailScreenState();
+}
+
+class _ClientDetailScreenState extends State<ClientDetailScreen> {
+  late String _clientPhoneKey;
+
+  @override
+  void initState() {
+    super.initState();
+    _clientPhoneKey = widget.client.phone;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final store = SalonStoreScope.of(context);
+    final client = store.clients.firstWhere(
+      (entry) => entry.phone == _clientPhoneKey,
+      orElse: () => widget.client,
+    );
+
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        appBar: AppBar(title: const Text('Client Detail')),
+        appBar: AppBar(
+          title: const Text('Client Detail'),
+          actions: [
+            IconButton(
+              onPressed: () => _editClient(client),
+              icon: const Icon(Icons.edit_rounded),
+              tooltip: 'Edit client',
+            ),
+          ],
+        ),
         bottomNavigationBar: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -80,11 +110,11 @@ class ClientDetailScreen extends StatelessWidget {
             Row(
               children: [
                 Expanded(child: MiniStat(value: client.visits, label: 'Visits')),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: MiniStat(value: client.totalSpent, label: 'Spent'),
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: MiniStat(
                     value: client.lastService,
@@ -131,6 +161,25 @@ class ClientDetailScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _editClient(Client client) async {
+    final updatedClient = await showClientEditorSheet(
+      context,
+      initialClient: client,
+      title: 'Edit Client',
+      submitLabel: 'Save Changes',
+    );
+    if (updatedClient == null || !mounted) {
+      return;
+    }
+
+    SalonStoreScope.of(context).updateClient(
+      previousPhone: _clientPhoneKey,
+      client: updatedClient,
+    );
+    setState(() => _clientPhoneKey = updatedClient.phone);
+    showAppMessage(context, '${updatedClient.name} contact info updated.');
   }
 }
 
@@ -183,7 +232,7 @@ class HistoryCard extends StatelessWidget {
           service,
           style: const TextStyle(fontWeight: FontWeight.w900),
         ),
-        subtitle: Text('$date · $stylist'),
+        subtitle: Text('$date - $stylist'),
         trailing: Text(
           amount,
           style: const TextStyle(fontWeight: FontWeight.w900),

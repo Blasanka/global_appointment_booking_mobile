@@ -161,44 +161,131 @@ class AppointmentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PremiumCard(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
-      child: Row(
-        children: [
-          CircleAvatar(radius: 24, child: Text(initials(booking.clientName))),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  booking.clientName,
-                  style: const TextStyle(fontWeight: FontWeight.w900),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  '${booking.serviceName} · ${booking.staffName}',
-                  style: const TextStyle(color: AppColors.muted),
-                ),
-                const SizedBox(height: 8),
-                Row(
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(24),
+        onTap: () => _showAppointmentDetails(context),
+        child: PremiumCard(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 24,
+                child: Text(initials(booking.clientName)),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      booking.time,
-                      style: const TextStyle(fontWeight: FontWeight.w800),
+                      booking.clientName,
+                      style: const TextStyle(fontWeight: FontWeight.w900),
                     ),
-                    const SizedBox(width: 8),
-                    StatusChip(
-                      label: booking.status,
-                      color: booking.statusColor,
+                    const SizedBox(height: 4),
+                    Text(
+                      '${booking.serviceName} · ${booking.staffName}',
+                      style: const TextStyle(color: AppColors.muted),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text(
+                          booking.time,
+                          style: const TextStyle(fontWeight: FontWeight.w800),
+                        ),
+                        const SizedBox(width: 8),
+                        StatusChip(
+                          label: booking.status,
+                          color: booking.statusColor,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
+              const Icon(Icons.chevron_right_rounded),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _showAppointmentDetails(BuildContext context) {
+    return showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                booking.clientName,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Today\'s appointment details',
+                style: TextStyle(color: AppColors.muted),
+              ),
+              const SizedBox(height: 20),
+              _AppointmentDetailRow(label: 'Service', value: booking.serviceName),
+              _AppointmentDetailRow(label: 'Staff', value: booking.staffName),
+              _AppointmentDetailRow(label: 'Time', value: booking.time),
+              _AppointmentDetailRow(label: 'Price', value: booking.price),
+              _AppointmentDetailRow(label: 'Status', value: booking.status),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: const Text('Close'),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _AppointmentDetailRow extends StatelessWidget {
+  const _AppointmentDetailRow({required this.label, required this.value});
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 72,
+            child: Text(
+              label,
+              style: const TextStyle(
+                color: AppColors.muted,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
-          const Icon(Icons.chevron_right_rounded),
+          Expanded(
+            child: Text(
+              value,
+              style: const TextStyle(fontWeight: FontWeight.w800),
+            ),
+          ),
         ],
       ),
     );

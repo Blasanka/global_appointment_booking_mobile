@@ -5,6 +5,7 @@ import '../../app/theme.dart';
 import '../../shared/models/client.dart';
 import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
+import 'client_editor_sheet.dart';
 import 'client_detail_screen.dart';
 
 class ClientsScreen extends StatefulWidget {
@@ -125,16 +126,17 @@ class _ClientsScreenState extends State<ClientsScreen> {
   }
 
   Future<void> _addClient() async {
-    SalonStoreScope.of(context).addClient(
-      const Client(
-        name: 'New Walk-in Client',
-        phone: '+94 75 101 2020',
-        lastService: 'Consultation',
-        visits: '1 visit',
-        totalSpent: 'LKR 0',
-      ),
+    final newClient = await showClientEditorSheet(
+      context,
+      title: 'Add Client',
+      submitLabel: 'Add Client',
     );
-    showAppMessage(context, 'Client draft added to the list.');
+    if (newClient == null || !mounted) {
+      return;
+    }
+
+    SalonStoreScope.of(context).addClient(newClient);
+    showAppMessage(context, '${newClient.name} added to clients.');
   }
 }
 
