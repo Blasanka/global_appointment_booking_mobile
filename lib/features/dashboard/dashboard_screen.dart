@@ -13,6 +13,7 @@ import '../bookings/new_booking_screen.dart';
 import '../clients/clients_screen.dart';
 import '../management/services_staff_screen.dart';
 import '../notifications/notifications_screen.dart';
+import '../auth/account_holder_screen.dart';
 import 'all_appointments_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -51,12 +52,17 @@ class DashboardScreen extends StatelessWidget {
                   icon: const Icon(Icons.notifications_none_rounded),
                 ),
                 const SizedBox(width: 8),
-                const CircleAvatar(
-                  radius: 22,
-                  backgroundColor: Color(0xFFE7DFFD),
-                  child: Text(
-                    'N',
-                    style: TextStyle(fontWeight: FontWeight.w900),
+                InkWell(
+                  borderRadius: BorderRadius.circular(999),
+                  onTap: () =>
+                      pushScreen(context, const AccountHolderScreen()),
+                  child: const CircleAvatar(
+                    radius: 22,
+                    backgroundColor: Color(0xFFE7DFFD),
+                    child: Text(
+                      'N',
+                      style: TextStyle(fontWeight: FontWeight.w900),
+                    ),
                   ),
                 ),
               ],
