@@ -84,61 +84,63 @@ class _ServiceEditorSheetState extends State<_ServiceEditorSheet> {
     final insets = MediaQuery.of(context).viewInsets.bottom;
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 8, 20, 20 + insets),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.title,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _nameController,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Service Name',
-                prefixIcon: Icon(Icons.spa_rounded),
+        padding: EdgeInsets.fromLTRB(20, 4, 20, 20 + insets),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _durationController,
-              decoration: const InputDecoration(
-                labelText: 'Duration',
-                prefixIcon: Icon(Icons.schedule_rounded),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _nameController,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Service Name',
+                  prefixIcon: Icon(Icons.spa_rounded),
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _priceController,
-              keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Price',
-                prefixIcon: Icon(Icons.payments_rounded),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _durationController,
+                decoration: const InputDecoration(
+                  labelText: 'Duration',
+                  prefixIcon: Icon(Icons.schedule_rounded),
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _categoryController,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Category',
-                prefixIcon: Icon(Icons.label_rounded),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _priceController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Price',
+                  prefixIcon: Icon(Icons.payments_rounded),
+                ),
               ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _submit,
-                child: Text(widget.submitLabel),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _categoryController,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Category',
+                  prefixIcon: Icon(Icons.label_rounded),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submit,
+                  child: Text(widget.submitLabel),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -208,59 +210,61 @@ class _StaffEditorSheetState extends State<_StaffEditorSheet> {
     final insets = MediaQuery.of(context).viewInsets.bottom;
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 8, 20, 20 + insets),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.title,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _nameController,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Staff Name',
-                prefixIcon: Icon(Icons.person_rounded),
+        padding: EdgeInsets.fromLTRB(20, 4, 20, 20 + insets),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.title,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _roleController,
-              textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
-                labelText: 'Role',
-                prefixIcon: Icon(Icons.badge_rounded),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _nameController,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Staff Name',
+                  prefixIcon: Icon(Icons.person_rounded),
+                ),
               ),
-            ),
-            const SizedBox(height: 12),
-            TextField(
-              controller: _ratingController,
-              decoration: const InputDecoration(
-                labelText: 'Rating',
-                prefixIcon: Icon(Icons.star_rounded),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _roleController,
+                textCapitalization: TextCapitalization.words,
+                decoration: const InputDecoration(
+                  labelText: 'Role',
+                  prefixIcon: Icon(Icons.badge_rounded),
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-            SwitchListTile(
-              contentPadding: EdgeInsets.zero,
-              value: _available,
-              onChanged: (value) => setState(() => _available = value),
-              title: const Text('Available'),
-            ),
-            const SizedBox(height: 12),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: _submit,
-                child: Text(widget.submitLabel),
+              const SizedBox(height: 12),
+              TextField(
+                controller: _ratingController,
+                decoration: const InputDecoration(
+                  labelText: 'Rating',
+                  prefixIcon: Icon(Icons.star_rounded),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 8),
+              SwitchListTile(
+                contentPadding: EdgeInsets.zero,
+                value: _available,
+                onChanged: (value) => setState(() => _available = value),
+                title: const Text('Available'),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _submit,
+                  child: Text(widget.submitLabel),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

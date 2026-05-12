@@ -499,7 +499,7 @@ class _MonthView extends StatelessWidget {
         PremiumCard(
           child: Column(
             children: [
-              const Row(
+              Row(
                 children: [
                   for (final label in weekdayLabels)
                     Expanded(

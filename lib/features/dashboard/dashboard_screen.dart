@@ -220,37 +220,39 @@ class AppointmentCard extends StatelessWidget {
       showDragHandle: true,
       builder: (context) => SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                booking.clientName,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Today\'s appointment details',
-                style: TextStyle(color: AppColors.muted),
-              ),
-              const SizedBox(height: 20),
-              _AppointmentDetailRow(label: 'Service', value: booking.serviceName),
-              _AppointmentDetailRow(label: 'Staff', value: booking.staffName),
-              _AppointmentDetailRow(label: 'Time', value: booking.time),
-              _AppointmentDetailRow(label: 'Price', value: booking.price),
-              _AppointmentDetailRow(label: 'Status', value: booking.status),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  child: const Text('Close'),
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  booking.clientName,
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w900),
                 ),
-              ),
-            ],
+                const SizedBox(height: 8),
+                const Text(
+                  'Today\'s appointment details',
+                  style: TextStyle(color: AppColors.muted),
+                ),
+                const SizedBox(height: 20),
+                _AppointmentDetailRow(label: 'Service', value: booking.serviceName),
+                _AppointmentDetailRow(label: 'Staff', value: booking.staffName),
+                _AppointmentDetailRow(label: 'Time', value: booking.time),
+                _AppointmentDetailRow(label: 'Price', value: booking.price),
+                _AppointmentDetailRow(label: 'Status', value: booking.status),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Close'),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

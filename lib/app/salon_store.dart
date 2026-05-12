@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../shared/data/mock_data.dart';
+import '../shared/data/mock_data.dart' as mock;
 import '../shared/models/booking.dart';
 import '../shared/models/client.dart';
 import '../shared/models/service.dart';
@@ -8,10 +8,10 @@ import '../shared/models/staff_member.dart';
 
 class SalonStore extends ChangeNotifier {
   SalonStore()
-    : _bookings = List.of(todayBookings),
-      _clients = List.of(clients),
-      _services = List.of(services),
-      _staffMembers = List.of(staffMembers);
+    : _bookings = List.of(mock.todayBookings),
+      _clients = List.of(mock.clients),
+      _services = List.of(mock.services),
+      _staffMembers = List.of(mock.staffMembers);
 
   final List<Booking> _bookings;
   final List<Client> _clients;
