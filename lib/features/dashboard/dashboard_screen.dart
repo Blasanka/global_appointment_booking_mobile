@@ -12,6 +12,8 @@ import '../../shared/widgets/status_chip.dart';
 import '../bookings/new_booking_screen.dart';
 import '../clients/clients_screen.dart';
 import '../management/services_staff_screen.dart';
+import '../notifications/notifications_screen.dart';
+import 'all_appointments_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -36,18 +38,16 @@ class DashboardScreen extends StatelessWidget {
                             ?.copyWith(fontWeight: FontWeight.w900),
                       ),
                       const SizedBox(height: 4),
-                      const Text(
-                        'Glow & Grace Salon',
+                      Text(
+                        store.salonProfile.name,
                         style: TextStyle(color: AppColors.muted),
                       ),
                     ],
                   ),
                 ),
                 IconButton.filledTonal(
-                  onPressed: () => showAppMessage(
-                    context,
-                    'No new notifications right now.',
-                  ),
+                  onPressed: () =>
+                      pushScreen(context, const NotificationsScreen()),
                   icon: const Icon(Icons.notifications_none_rounded),
                 ),
                 const SizedBox(width: 8),
@@ -96,12 +96,7 @@ class DashboardScreen extends StatelessWidget {
             SectionHeader(
               title: 'Today\'s Appointments',
               action: 'View All',
-              onTap: () => showInfoSheet(
-                context,
-                title: 'Today\'s Schedule',
-                message:
-                    'You have ${store.bookings.length} active appointments on the dashboard today.',
-              ),
+              onTap: () => pushScreen(context, const AllAppointmentsScreen()),
             ),
             const SizedBox(height: 12),
             for (final booking in store.bookings)
@@ -112,40 +107,55 @@ class DashboardScreen extends StatelessWidget {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
             ),
             const SizedBox(height: 12),
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 1.28,
-              children: [
-                ActionTile(
-                  icon: Icons.add_circle_outline_rounded,
-                  title: 'New Booking',
-                  subtitle: 'Reserve a service slot',
-                  onTap: () => pushScreen(context, const NewBookingScreen()),
-                ),
-                ActionTile(
-                  icon: Icons.people_outline_rounded,
-                  title: 'Clients',
-                  subtitle: 'Profiles and history',
-                  onTap: () => pushScreen(context, const ClientsScreen()),
-                ),
-                ActionTile(
-                  icon: Icons.spa_outlined,
-                  title: 'Services',
-                  subtitle: 'Prices and durations',
-                  onTap: () => pushScreen(context, const ServicesStaffScreen()),
-                ),
-                ActionTile(
-                  icon: Icons.badge_outlined,
-                  title: 'Staff',
-                  subtitle: 'Roster availability',
-                  onTap: () =>
-                      pushScreen(context, const ServicesStaffScreen(tab: 1)),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final maxWidth = constraints.maxWidth;
+                final isLargeScreen = maxWidth >= 700;
+                final gridWidth = isLargeScreen ? 920.0 : maxWidth;
+                final cardWidth = (gridWidth - 12) / 2;
+                final childAspectRatio = cardWidth / (isLargeScreen ? 150 : 132);
+
+                return Center(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: gridWidth),
+                    child: GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      mainAxisSpacing: 12,
+                      crossAxisSpacing: 12,
+                      childAspectRatio: childAspectRatio,
+                      children: [
+                        ActionTile(
+                          icon: Icons.add_circle_outline_rounded,
+                          title: 'New Booking',
+                          subtitle: 'Reserve a service slot',
+                          onTap: () => pushScreen(context, const NewBookingScreen()),
+                        ),
+                        ActionTile(
+                          icon: Icons.people_outline_rounded,
+                          title: 'Clients',
+                          subtitle: 'Profiles and history',
+                          onTap: () => pushScreen(context, const ClientsScreen()),
+                        ),
+                        ActionTile(
+                          icon: Icons.spa_outlined,
+                          title: 'Services',
+                          subtitle: 'Prices and durations',
+                          onTap: () => pushScreen(context, const ServicesStaffScreen()),
+                        ),
+                        ActionTile(
+                          icon: Icons.badge_outlined,
+                          title: 'Staff',
+                          subtitle: 'Roster availability',
+                          onTap: () =>
+                              pushScreen(context, const ServicesStaffScreen(tab: 1)),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           ],
         ),

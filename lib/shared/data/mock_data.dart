@@ -2,6 +2,7 @@ import '../../app/theme.dart';
 import '../models/booking.dart';
 import '../models/client.dart';
 import '../models/service.dart';
+import '../models/settings_models.dart';
 import '../models/staff_member.dart';
 
 const todayBookings = [
@@ -109,3 +110,117 @@ const staffMembers = [
 
 const timeSlots = ['9:00', '10:30', '12:00', '2:15', '3:30', '5:00'];
 const calendarDates = ['Tue\n12', 'Wed\n13', 'Thu\n14', 'Fri\n15', 'Sat\n16'];
+
+const salonProfile = SalonProfile(
+  name: 'Glow & Grace Salon',
+  address: '14 Flower Road, Colombo 07',
+  phone: '+94 11 245 7788',
+  tagline: 'Modern salon care for hair, skin, and bridal styling.',
+);
+
+const workingDays = [
+  WorkingDay(
+    label: 'Monday',
+    enabled: true,
+    openTime: '9:00 AM',
+    closeTime: '6:00 PM',
+    breakLabel: '1:00 PM - 2:00 PM',
+  ),
+  WorkingDay(
+    label: 'Tuesday',
+    enabled: true,
+    openTime: '9:00 AM',
+    closeTime: '6:00 PM',
+    breakLabel: '1:00 PM - 2:00 PM',
+  ),
+  WorkingDay(
+    label: 'Wednesday',
+    enabled: true,
+    openTime: '9:00 AM',
+    closeTime: '7:00 PM',
+    breakLabel: '1:00 PM - 2:00 PM',
+  ),
+  WorkingDay(
+    label: 'Thursday',
+    enabled: true,
+    openTime: '9:00 AM',
+    closeTime: '7:00 PM',
+    breakLabel: '1:00 PM - 2:00 PM',
+  ),
+  WorkingDay(
+    label: 'Friday',
+    enabled: true,
+    openTime: '9:00 AM',
+    closeTime: '7:30 PM',
+    breakLabel: '1:30 PM - 2:15 PM',
+  ),
+  WorkingDay(
+    label: 'Saturday',
+    enabled: true,
+    openTime: '10:00 AM',
+    closeTime: '8:00 PM',
+    breakLabel: '2:00 PM - 3:00 PM',
+  ),
+  WorkingDay(
+    label: 'Sunday',
+    enabled: false,
+    openTime: 'Closed',
+    closeTime: 'Closed',
+    breakLabel: 'Closed',
+  ),
+];
+
+const staffAccounts = [
+  StaffAccount(
+    name: 'Maya Perera',
+    role: 'Senior Stylist',
+    permissionLabel: 'Manager access',
+    email: 'maya@glowgrace.app',
+    active: true,
+  ),
+  StaffAccount(
+    name: 'Dilan Jay',
+    role: 'Barber',
+    permissionLabel: 'Staff access',
+    email: 'dilan@glowgrace.app',
+    active: true,
+  ),
+  StaffAccount(
+    name: 'Ishara Sen',
+    role: 'Skin Therapist',
+    permissionLabel: 'Limited access',
+    email: 'ishara@glowgrace.app',
+    active: false,
+  ),
+];
+
+const whatsappTemplates = [
+  WhatsAppTemplate(
+    title: 'Booking Confirmation',
+    category: 'Confirmation',
+    message: 'Hi {client}, your appointment for {service} is confirmed for {time}.',
+    enabled: true,
+  ),
+  WhatsAppTemplate(
+    title: 'Appointment Reminder',
+    category: 'Reminder',
+    message: 'Friendly reminder: your appointment starts at {time} with {staff}.',
+    enabled: true,
+  ),
+  WhatsAppTemplate(
+    title: 'Follow-up Message',
+    category: 'Aftercare',
+    message: 'Thank you for visiting us today. Reply here if you need aftercare support.',
+    enabled: false,
+  ),
+];
+
+const subscriptionPlan = SubscriptionPlan(
+  planName: 'SalonFlow Pro',
+  priceLabel: 'LKR 18,500',
+  billingCycle: 'Monthly billing',
+  renewalDate: 'Renews on May 28',
+  status: 'Active',
+  seatsUsed: 3,
+  seatLimit: 5,
+);

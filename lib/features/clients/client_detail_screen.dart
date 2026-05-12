@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../app/salon_store.dart';
 import '../../app/theme.dart';
@@ -82,10 +83,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () => showAppMessage(
-                            context,
-                            'WhatsApp confirmation prepared for ${client.name}.',
-                          ),
+                          onPressed: () => _openWhatsApp(client),
                           icon: const Icon(Icons.chat_rounded),
                           label: const Text('WhatsApp'),
                         ),
@@ -93,10 +91,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () => showAppMessage(
-                            context,
-                            'Calling ${client.phone}...',
-                          ),
+                          onPressed: () => _callClient(client),
                           icon: const Icon(Icons.call_rounded),
                           label: const Text('Call'),
                         ),
@@ -180,6 +175,43 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     );
     setState(() => _clientPhoneKey = updatedClient.phone);
     showAppMessage(context, '${updatedClient.name} contact info updated.');
+  }
+
+  Future<void> _openWhatsApp(Client client) async {
+    final digits = _normalizedPhone(client.phone);
+    final salonName = SalonStoreScope.of(context).salonProfile.name;
+    final message = Uri.encodeComponent(
+      'Hi ${client.name}, this is $salonName.',
+    );
+    final uri = Uri.parse('https://wa.me/$digits?text=$message');
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+    showAppMessage(context, 'WhatsApp is not available on this device.');
+  }
+
+  Future<void> _callClient(Client client) async {
+    final uri = Uri(scheme: 'tel', path: _normalizedPhone(client.phone));
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+      return;
+    }
+
+    if (!mounted) {
+      return;
+    }
+    showAppMessage(context, 'Calling is not available on this device.');
+  }
+
+  String _normalizedPhone(String phone) {
+    return phone.replaceAll(RegExp(r'[^0-9+]'), '');
   }
 }
 

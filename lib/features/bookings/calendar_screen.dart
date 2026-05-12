@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../../app/salon_store.dart';
 import '../../app/theme.dart';
-import '../../shared/data/mock_data.dart';
 import '../../shared/models/booking.dart';
 import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
@@ -20,16 +19,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
   static const _staffOptions = ['All staff', 'Maya Perera', 'Dilan Jay'];
   static const _serviceOptions = ['All services', 'Hair', 'Beard', 'Skin'];
 
-  int _monthOffset = 0;
+  late DateTime _focusedMonth;
+  late DateTime _selectedDate;
   String _selectedView = 'Day';
-  int _selectedDateIndex = 2;
   String _selectedStaff = _staffOptions.first;
   String _selectedService = _serviceOptions.first;
+
+  @override
+  void initState() {
+    super.initState();
+    final now = DateTime.now();
+    _focusedMonth = DateTime(now.year, now.month);
+    _selectedDate = DateTime(now.year, now.month, now.day);
+  }
 
   @override
   Widget build(BuildContext context) {
     final store = SalonStoreScope.of(context);
     final visibleBookings = _filteredBookings(store.bookings);
+    final monthDates = _monthDates;
 
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
@@ -44,7 +52,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             Row(
               children: [
                 IconButton.filledTonal(
-                  onPressed: () => setState(() => _monthOffset--),
+                  onPressed: () => _changeMonth(-1),
                   icon: const Icon(Icons.chevron_left_rounded),
                 ),
                 Expanded(
@@ -59,7 +67,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   ),
                 ),
                 IconButton.filledTonal(
-                  onPressed: () => setState(() => _monthOffset++),
+                  onPressed: () => _changeMonth(1),
                   icon: const Icon(Icons.chevron_right_rounded),
                 ),
               ],
@@ -82,12 +90,12 @@ class _CalendarScreenState extends State<CalendarScreen> {
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) => DateChip(
-                  text: calendarDates[index],
-                  selected: index == _selectedDateIndex,
-                  onTap: () => setState(() => _selectedDateIndex = index),
+                  text: _chipLabel(monthDates[index]),
+                  selected: _isSameDate(monthDates[index], _selectedDate),
+                  onTap: () => setState(() => _selectedDate = monthDates[index]),
                 ),
                 separatorBuilder: (context, index) => const SizedBox(width: 10),
-                itemCount: calendarDates.length,
+                itemCount: monthDates.length,
               ),
             ),
             const SizedBox(height: 18),
@@ -139,18 +147,18 @@ class _CalendarScreenState extends State<CalendarScreen> {
   Widget _buildSelectedView(List<Booking> visibleBookings) {
     return switch (_selectedView) {
       'Week' => _WeekView(
-        selectedDateIndex: _selectedDateIndex,
+        selectedDate: _selectedDate,
         bookings: visibleBookings,
       ),
       'Month' => _MonthView(
-        selectedDateIndex: _selectedDateIndex,
+        selectedDate: _selectedDate,
+        focusedMonth: _focusedMonth,
         bookings: visibleBookings,
         monthLabel: _monthLabel,
       ),
       _ => _DayView(
-        selectedDateLabel: calendarDates[_selectedDateIndex],
+        selectedDateLabel: _fullDateLabel(_selectedDate),
         bookings: visibleBookings,
-        selectedDateIndex: _selectedDateIndex,
       ),
     };
   }
@@ -172,10 +180,10 @@ class _CalendarScreenState extends State<CalendarScreen> {
     if (source.isEmpty) {
       return const [];
     }
-    final shift = _selectedDateIndex % source.length;
+    final shift = (_selectedDate.day - 1) % source.length;
     return List.generate(source.length, (index) {
       final booking = source[(index + shift) % source.length];
-      final time = _shiftTime(booking.time, _selectedDateIndex);
+      final time = _shiftTime(booking.time, _selectedDate.day - 1);
       final status = _statusForDate(index);
       return Booking(
         clientName: booking.clientName,
@@ -218,7 +226,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   _BookingStatus _statusForDate(int bookingIndex) {
-    final pattern = (_selectedDateIndex + bookingIndex) % 3;
+    final pattern = ((_selectedDate.day - 1) + bookingIndex) % 3;
     return switch (pattern) {
       1 => const _BookingStatus('In Progress', AppColors.amber),
       2 => const _BookingStatus('Completed', AppColors.blue),
@@ -227,7 +235,61 @@ class _CalendarScreenState extends State<CalendarScreen> {
   }
 
   String get _monthLabel {
-    const months = [
+    return '${_monthName(_focusedMonth.month)} ${_focusedMonth.year}';
+  }
+
+  List<DateTime> get _monthDates {
+    final daysInMonth = DateUtils.getDaysInMonth(
+      _focusedMonth.year,
+      _focusedMonth.month,
+    );
+    return List.generate(
+      daysInMonth,
+      (index) => DateTime(_focusedMonth.year, _focusedMonth.month, index + 1),
+    );
+  }
+
+  void _changeMonth(int delta) {
+    setState(() {
+      final nextMonth = DateTime(_focusedMonth.year, _focusedMonth.month + delta);
+      final day = _selectedDate.day
+          .clamp(
+        1,
+        DateUtils.getDaysInMonth(nextMonth.year, nextMonth.month),
+      )
+          .toInt();
+      _focusedMonth = nextMonth;
+      _selectedDate = DateTime(nextMonth.year, nextMonth.month, day);
+    });
+  }
+
+  String _chipLabel(DateTime date) {
+    return '${_weekdayShort(date.weekday)}\n${date.day}';
+  }
+
+  String _fullDateLabel(DateTime date) {
+    return '${_weekdayName(date.weekday)}, ${_monthName(date.month)} ${date.day}';
+  }
+
+  bool _isSameDate(DateTime a, DateTime b) {
+    return a.year == b.year && a.month == b.month && a.day == b.day;
+  }
+
+  String _weekdayName(int weekday) {
+    const labels = [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ];
+    return labels[weekday - 1];
+  }
+
+  String _monthName(int month) {
+    const labels = [
       'January',
       'February',
       'March',
@@ -241,12 +303,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
       'November',
       'December',
     ];
-    const baseMonth = 4;
-    const baseYear = 2026;
-    final totalMonths = (baseMonth - 1) + _monthOffset;
-    final year = baseYear + (totalMonths ~/ 12);
-    final monthIndex = ((totalMonths % 12) + 12) % 12;
-    return '${months[monthIndex]} $year';
+    return labels[month - 1];
   }
 
   Future<void> _pickOption({
@@ -299,12 +356,10 @@ class _DayView extends StatelessWidget {
   const _DayView({
     required this.selectedDateLabel,
     required this.bookings,
-    required this.selectedDateIndex,
   });
 
   final String selectedDateLabel;
   final List<Booking> bookings;
-  final int selectedDateIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -331,7 +386,7 @@ class _DayView extends StatelessWidget {
         ),
         const SizedBox(height: 18),
         Text(
-          'Bookings for ${selectedDateLabel.replaceFirst('\n', ' ')}',
+          'Bookings for $selectedDateLabel',
           style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w900),
         ),
         const SizedBox(height: 12),
@@ -385,26 +440,28 @@ class _DayView extends StatelessWidget {
 
 class _WeekView extends StatelessWidget {
   const _WeekView({
-    required this.selectedDateIndex,
+    required this.selectedDate,
     required this.bookings,
   });
 
-  final int selectedDateIndex;
+  final DateTime selectedDate;
   final List<Booking> bookings;
 
   @override
   Widget build(BuildContext context) {
+    final weekDates = _weekDates(selectedDate);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         PremiumCard(
           child: Column(
-            children: List.generate(calendarDates.length, (index) {
-              final isSelected = index == selectedDateIndex;
-              final load = bookings.length + ((index - selectedDateIndex).abs() % 3);
+            children: List.generate(weekDates.length, (index) {
+              final date = weekDates[index];
+              final isSelected = _sameDate(date, selectedDate);
+              final load = bookings.length + ((date.day - selectedDate.day).abs() % 3);
               final revenue = (load * 3500) + (index * 1200);
               return Padding(
-                padding: EdgeInsets.only(bottom: index == calendarDates.length - 1 ? 0 : 12),
+                padding: EdgeInsets.only(bottom: index == weekDates.length - 1 ? 0 : 12),
                 child: Container(
                   padding: const EdgeInsets.all(14),
                   decoration: BoxDecoration(
@@ -423,7 +480,7 @@ class _WeekView extends StatelessWidget {
                       SizedBox(
                         width: 72,
                         child: Text(
-                          calendarDates[index].replaceFirst('\n', ' '),
+                          '${_weekdayShort(date.weekday)} ${date.day}',
                           style: const TextStyle(fontWeight: FontWeight.w900),
                         ),
                       ),
@@ -455,7 +512,7 @@ class _WeekView extends StatelessWidget {
             Expanded(
               child: _SummaryMetric(
                 label: 'Active Days',
-                value: '${calendarDates.length}',
+                value: '${weekDates.length}',
               ),
             ),
             const SizedBox(width: 10),
@@ -481,18 +538,27 @@ class _WeekView extends StatelessWidget {
 
 class _MonthView extends StatelessWidget {
   const _MonthView({
-    required this.selectedDateIndex,
+    required this.selectedDate,
+    required this.focusedMonth,
     required this.bookings,
     required this.monthLabel,
   });
 
-  final int selectedDateIndex;
+  final DateTime selectedDate;
+  final DateTime focusedMonth;
   final List<Booking> bookings;
   final String monthLabel;
 
   @override
   Widget build(BuildContext context) {
     const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    final daysInMonth = DateUtils.getDaysInMonth(
+      focusedMonth.year,
+      focusedMonth.month,
+    );
+    final leadingDays = DateTime(focusedMonth.year, focusedMonth.month, 1).weekday - 1;
+    final totalCells = leadingDays + daysInMonth;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -504,11 +570,11 @@ class _MonthView extends StatelessWidget {
                   for (final label in weekdayLabels)
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.only(bottom: 12),
                         child: Text(
                           label,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: AppColors.muted,
                             fontWeight: FontWeight.w800,
                           ),
@@ -520,7 +586,7 @@ class _MonthView extends StatelessWidget {
               GridView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: 35,
+                itemCount: totalCells,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 7,
                   mainAxisSpacing: 10,
@@ -528,8 +594,13 @@ class _MonthView extends StatelessWidget {
                   childAspectRatio: 1,
                 ),
                 itemBuilder: (context, index) {
-                  final day = index + 1;
-                  final active = index % calendarDates.length == selectedDateIndex;
+                  if (index < leadingDays) {
+                    return const SizedBox.shrink();
+                  }
+                  final day = index - leadingDays + 1;
+                  final active = selectedDate.year == focusedMonth.year &&
+                      selectedDate.month == focusedMonth.month &&
+                      selectedDate.day == day;
                   final hasLoad = day % 3 == 0 || active;
                   return Container(
                     decoration: BoxDecoration(
@@ -586,7 +657,7 @@ class _MonthView extends StatelessWidget {
             Expanded(
               child: _SummaryMetric(
                 label: 'Highlighted Day',
-                value: calendarDates[selectedDateIndex].replaceFirst('\n', ' '),
+                value: '${_weekdayShort(selectedDate.weekday)} ${selectedDate.day}',
               ),
             ),
             const SizedBox(width: 10),
@@ -817,4 +888,18 @@ class ScheduleBlock extends StatelessWidget {
       ),
     );
   }
+}
+
+List<DateTime> _weekDates(DateTime selectedDate) {
+  final start = selectedDate.subtract(Duration(days: selectedDate.weekday - 1));
+  return List.generate(7, (index) => start.add(Duration(days: index)));
+}
+
+bool _sameDate(DateTime a, DateTime b) {
+  return a.year == b.year && a.month == b.month && a.day == b.day;
+}
+
+String _weekdayShort(int weekday) {
+  const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  return labels[weekday - 1];
 }

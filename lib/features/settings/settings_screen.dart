@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../notifications/notifications_screen.dart';
+import 'salon_profile_screen.dart';
+import 'staff_accounts_screen.dart';
+import 'subscription_screen.dart';
+import 'whatsapp_templates_screen.dart';
+import 'working_hours_screen.dart';
 import '../../shared/widgets/circle_icon.dart';
 import '../../shared/widgets/helpers.dart';
 import '../../shared/widgets/premium_card.dart';
@@ -58,11 +64,32 @@ class SettingsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: ListTile(
                 contentPadding: EdgeInsets.zero,
-                onTap: () => showInfoSheet(
-                  context,
-                  title: item.$2,
-                  message: item.$4,
-                ),
+                onTap: () {
+                  if (item.$2 == 'Notifications') {
+                    pushScreen(context, const NotificationsScreen());
+                    return;
+                  }
+                  if (item.$2 == 'Salon profile') {
+                    pushScreen(context, const SalonProfileScreen());
+                    return;
+                  }
+                  if (item.$2 == 'Working hours') {
+                    pushScreen(context, const WorkingHoursScreen());
+                    return;
+                  }
+                  if (item.$2 == 'Staff accounts') {
+                    pushScreen(context, const StaffAccountsScreen());
+                    return;
+                  }
+                  if (item.$2 == 'WhatsApp templates') {
+                    pushScreen(context, const WhatsAppTemplatesScreen());
+                    return;
+                  }
+                  if (item.$2 == 'Subscription') {
+                    pushScreen(context, const SubscriptionScreen());
+                    return;
+                  }
+                },
                 leading: CircleIcon(
                   icon: item.$1,
                   color: Theme.of(context).colorScheme.primary,
