@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../notifications/notifications_screen.dart';
+import 'privacy_policy_screen.dart';
 import 'salon_profile_screen.dart';
 import 'staff_accounts_screen.dart';
 import 'subscription_screen.dart';
@@ -47,6 +48,12 @@ class SettingsScreen extends StatelessWidget {
         'Prepare reusable booking and reminder message templates.',
       ),
       (
+        Icons.privacy_tip_rounded,
+        'Privacy & data',
+        'Policy and deletion guidance',
+        'Review privacy handling and Play Store release notes.',
+      ),
+      (
         Icons.workspace_premium_rounded,
         'Subscription',
         'Billing overview',
@@ -83,6 +90,10 @@ class SettingsScreen extends StatelessWidget {
                   }
                   if (item.$2 == 'WhatsApp templates') {
                     pushScreen(context, const WhatsAppTemplatesScreen());
+                    return;
+                  }
+                  if (item.$2 == 'Privacy & data') {
+                    pushScreen(context, const PrivacyPolicyScreen());
                     return;
                   }
                   if (item.$2 == 'Subscription') {

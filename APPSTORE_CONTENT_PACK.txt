@@ -1,0 +1,142 @@
+SALONFLOW APP STORE CONTENT PACK
+
+APP NAME
+SalonFlow
+
+APP NAME LIMIT
+- 30 characters maximum
+
+SUBTITLE OPTIONS
+1. Salon bookings made simple
+2. Bookings, clients, and staff
+3. Salon operations in one app
+
+SUBTITLE LIMIT
+- 30 characters maximum
+
+PROMOTIONAL TEXT OPTIONS
+1. Manage salon bookings, clients, staff, and reports from one organized workspace.
+2. Track appointments, client records, services, staff, and revenue in one clean salon workflow.
+3. Built for salon teams who need a faster way to run appointments and daily operations.
+
+PROMOTIONAL TEXT LIMIT
+- 170 characters maximum
+
+DESCRIPTION
+SalonFlow helps salon owners and staff manage daily operations in one clean workspace.
+
+Use SalonFlow to:
+- manage appointments with day, week, and month calendar views
+- track clients, visit history, and contact details
+- organize services, staff, and working hours
+- review revenue, top services, and staff activity
+- store salon profile details and business settings
+- launch WhatsApp and call actions from client records
+- keep notifications, templates, and subscription details in one place
+
+Built for salon teams that want a simple, organized way to handle bookings and client management without spreadsheet or notebook chaos.
+
+Key features:
+- appointment dashboard with upcoming bookings
+- calendar navigation across day, week, and month views
+- client directory with history and quick contact actions
+- staff and service management
+- reports for revenue and top-performing services
+- settings for salon profile, working hours, staff accounts, templates, and privacy information
+
+SalonFlow is designed for salon operations such as appointment tracking, staff coordination, customer management, and business reporting.
+
+Important note:
+This version may include preview or locally managed workflow data depending on your release configuration. Production releases should publish a public privacy policy and accurate store privacy disclosures.
+
+DESCRIPTION LIMIT
+- 4000 characters maximum
+
+KEYWORDS SUGGESTION
+salon,booking,appointments,clients,staff,schedule,services,reports,business,spa
+
+KEYWORDS NOTE
+- App Store keywords field allows up to 100 bytes.
+- Do not repeat the app name in keywords.
+- Avoid duplicating words already strong in the title and subtitle.
+
+SUPPORT URL PLACEHOLDER
+https://yourdomain.com/support
+
+MARKETING URL PLACEHOLDER
+https://yourdomain.com/salonflow
+
+PRIVACY POLICY URL PLACEHOLDER
+https://yourdomain.com/privacy
+
+WHAT'S NEW TEMPLATE
+What's New in Version 1.0.0
+
+- Launch release of SalonFlow
+- Manage bookings, clients, staff, services, and reports
+- Added salon profile, working hours, and staff account settings
+- Added in-app privacy and data guidance
+
+IPHONE SCREENSHOT HEADLINES
+1. Run the day at a glance
+   Support line: Track bookings, times, and appointment status from one dashboard.
+
+2. Keep every client detail ready
+   Support line: View visit history, phone numbers, and quick contact actions.
+
+3. Organize staff and services
+   Support line: Update roles, pricing, working hours, and service setup with less friction.
+
+4. Review performance clearly
+   Support line: Monitor revenue, top services, and staff activity in one reports flow.
+
+IPAD SCREENSHOT HEADLINES
+1. A wider salon workspace
+   Support line: Manage bookings, clients, and reporting comfortably on large screens.
+
+2. Built for busy teams
+   Support line: Give staff a clearer view of services, schedules, and daily operations.
+
+APP PREVIEW SCRIPT OUTLINE
+Scene 1: Open on dashboard
+Voice line: SalonFlow keeps your salon day organized from the moment you open the app.
+
+Scene 2: Calendar navigation
+Voice line: Move through appointments with flexible day, week, and month views.
+
+Scene 3: Client detail
+Voice line: Keep client history, contact details, and quick actions close at hand.
+
+Scene 4: Services, staff, and reports
+Voice line: Manage staff, services, and revenue insights from one focused workspace.
+
+APP STORE IMAGE PROMPTS
+
+APP ICON PROMPT
+Create a premium iOS app icon for "SalonFlow". Use a soft warm light background and a circular brand mark centered in the icon. The mark should feel elegant, modern, and salon-focused: a rounded floral or spa-inspired symbol with smooth white petals inside a violet-to-lilac gradient circle. Style: minimal, polished, high-contrast, luxury beauty-tech brand. No text. No device frame. Keep composition simple and readable at small sizes. Output as a square icon composition suitable for App Store use.
+
+IPHONE SCREENSHOT FRAME PROMPT
+Create an App Store screenshot marketing frame for a salon management app called SalonFlow. Style: premium editorial, soft beige background, violet accent shapes, subtle shadows, modern typography, clean spacing. Leave the real app UI clearly visible and dominant. Add a short headline area and a smaller support line area. Do not add ratings, prices, badges, or store claims. Optimize for portrait iPhone screenshots.
+
+IPAD SCREENSHOT FRAME PROMPT
+Create a wide App Store screenshot composition for an iPad salon management app called SalonFlow. Show a refined, spacious salon operations interface with elegant cards, booking views, client management panels, and violet accent highlights. Use a premium, professional, modern style with soft neutral background details. Keep the app UI primary. No fake awards, prices, or marketing badges.
+
+APP PREVIEW THUMBNAIL PROMPT
+Design a polished App Store app preview poster frame for SalonFlow. Show a premium salon operations dashboard with elegant violet accents, clean scheduling cards, client details, and reporting snippets. Style should feel professional, calm, and premium. No promotional claims or price language.
+
+APPLE METADATA NOTES
+- Name: up to 30 characters
+- Subtitle: up to 30 characters
+- Promotional Text: up to 170 characters
+- Description: up to 4000 characters
+- Keywords: up to 100 bytes
+- Privacy Policy URL is required for iOS apps
+- Screenshots: minimum 1, maximum 10 per device size
+- App previews: optional, up to 3 per device size and language
+
+OFFICIAL APPLE SOURCES
+- App information: https://developer.apple.com/help/app-store-connect/reference/app-information
+- Platform version information: https://developer.apple.com/help/app-store-connect/reference/app-review-information
+- Upload app previews and screenshots: https://developer.apple.com/help/app-store-connect/manage-app-information/upload-app-previews-and-screenshots
+- Screenshot specifications: https://developer.apple.com/help/app-store-connect/reference/app-information/screenshot-specifications
+- App preview specifications: https://developer.apple.com/help/app-store-connect/reference/app-information/app-preview-specifications

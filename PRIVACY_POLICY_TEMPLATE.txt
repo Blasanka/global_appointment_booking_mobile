@@ -1,0 +1,96 @@
+SALONFLOW PRIVACY POLICY
+
+Effective date: [INSERT DATE]
+Last updated: [INSERT DATE]
+
+SalonFlow ("we", "our", or "us") respects your privacy. This Privacy Policy explains how SalonFlow collects, uses, stores, and protects information when you use the SalonFlow mobile application and related services.
+
+1. INFORMATION WE COLLECT
+
+We may collect and store the following types of information:
+
+- Account information, such as name, email address, phone number, and login credentials
+- Business information, such as salon name, address, working hours, staff details, service lists, pricing, and subscription details
+- Client management information, such as client names, phone numbers, visit history, appointment history, service history, and notes entered by the salon
+- Operational usage data needed to display bookings, reports, notifications, templates, and settings
+- Device or app interaction data if analytics, crash reporting, or other diagnostics tools are enabled in a production release
+
+2. HOW WE USE INFORMATION
+
+We use information to:
+
+- provide appointment, client, staff, reporting, and settings features
+- manage salon operations within the app
+- enable user-requested contact actions such as phone calls or WhatsApp actions
+- improve product quality, stability, and usability
+- provide support, service communications, and account-related updates
+- meet legal, security, and compliance obligations
+
+3. HOW INFORMATION IS SHARED
+
+We do not sell personal information.
+
+We may share information only in the following cases:
+
+- with service providers who help us operate the app, if such services are added in a production environment
+- when required by law, legal process, or valid governmental request
+- to protect users, the service, legal rights, or security
+- with external apps only when the user explicitly launches actions such as a phone call, WhatsApp message, or web link
+
+4. DATA STORAGE AND SECURITY
+
+We use reasonable administrative, technical, and organizational measures to protect information from unauthorized access, loss, misuse, or disclosure.
+
+No method of transmission or storage is completely secure, so we cannot guarantee absolute security.
+
+5. DATA RETENTION
+
+We retain data only for as long as necessary to:
+
+- provide the service
+- support salon operations
+- resolve disputes
+- enforce agreements
+- comply with legal obligations
+
+Retention periods may vary depending on the type of data and the operational or legal need.
+
+6. DATA DELETION
+
+Users may request deletion of account-related or business-related data by contacting:
+
+[INSERT PRIVACY EMAIL]
+
+Please include enough information to identify the relevant account or salon record.
+
+Where legally permitted, we will delete or de-identify the requested data within a reasonable period. We may retain limited information where required for legal, fraud prevention, security, accounting, or compliance reasons.
+
+If the production app supports direct account creation, we may also provide in-app account deletion controls.
+
+7. THIRD-PARTY SERVICES
+
+If SalonFlow integrates third-party services such as analytics, crash reporting, authentication, messaging, or cloud storage, those providers may process limited information as needed to perform their services. Their handling of information is governed by their own privacy policies and contractual terms.
+
+8. CHILDREN'S PRIVACY
+
+SalonFlow is not directed to children under 13, and we do not knowingly collect personal information directly from children under 13. If we learn that such information has been collected without appropriate authorization, we will take steps to delete it.
+
+9. INTERNATIONAL DATA HANDLING
+
+If information is processed in countries outside the user's region, we will take reasonable steps to ensure that appropriate safeguards are applied where required by law.
+
+10. CHANGES TO THIS PRIVACY POLICY
+
+We may update this Privacy Policy from time to time. If we make material changes, we will update the effective date and, where appropriate, provide additional notice within the app or through other reasonable means.
+
+11. CONTACT US
+
+If you have questions, requests, or privacy concerns, contact us at:
+
+[INSERT PRIVACY EMAIL]
+[INSERT COMPANY OR DEVELOPER NAME]
+[INSERT BUSINESS ADDRESS OR SUPPORT URL]
+
+12. PLAY STORE DISCLOSURE NOTE
+
+The Google Play Data safety disclosure and this Privacy Policy should match the actual behavior of the production app build, including any backend services, analytics, authentication providers, cloud storage, or third-party SDKs used at release time.

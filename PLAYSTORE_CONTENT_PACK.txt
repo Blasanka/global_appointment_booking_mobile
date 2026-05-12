@@ -1,0 +1,77 @@
+SALONFLOW PLAY STORE CONTENT PACK
+
+APP NAME
+SalonFlow
+
+SHORT DESCRIPTION OPTIONS
+1. Run bookings, clients, staff, and reports from one salon workspace.
+2. Salon booking, client, staff, and revenue management in one app.
+
+FULL DESCRIPTION
+SalonFlow helps salon owners and staff manage daily operations in one clean workspace.
+
+Use SalonFlow to:
+- Manage appointments with day, week, and month calendar views
+- Track clients, visit history, and contact details
+- Organize services, staff, and working hours
+- Review revenue, top services, and staff activity
+- Store salon profile details and business settings
+- Launch WhatsApp and call actions from client records
+- Keep notifications, templates, and subscription details in one place
+
+Built for salon teams that want a simple, organized way to handle bookings and client management without spreadsheet or notebook chaos.
+
+Key features:
+- Appointment dashboard with upcoming bookings
+- Calendar navigation across day, week, and month views
+- Client directory with history and quick contact actions
+- Staff and service management
+- Reports for revenue and top-performing services
+- Settings for salon profile, working hours, staff accounts, templates, and privacy information
+
+SalonFlow is designed for salon operations such as appointment tracking, staff coordination, customer management, and business reporting.
+
+Important note:
+This version may include preview or locally managed workflow data depending on your release configuration. Production releases should publish a public privacy policy and accurate Play Store Data safety disclosures.
+
+PROMO TEXT
+SalonFlow keeps bookings, clients, staff, and reports in one focused salon workspace.
+
+APP ICON PROMPT
+Create a premium mobile app icon for "SalonFlow". Use a soft warm light background and a circular brand mark centered in the icon. The mark should feel elegant, modern, and salon-focused: a rounded floral or spa-inspired symbol with smooth white petals inside a violet-to-lilac gradient circle. Style: minimal, polished, high-contrast, luxury beauty-tech brand. No text. No device frame. Keep composition simple and readable at small sizes. Output as a square icon composition suitable for 512x512 app store use.
+
+FEATURE GRAPHIC PROMPT
+Design a Google Play feature graphic for a salon management app called "SalonFlow". Size target: 1024x500. Visual direction: elegant beauty-tech, warm neutral background, flowing layout, modern violet accent palette, premium but clean. Show a salon operations mood with abstract UI fragments for bookings, clients, staff, and reports, but do not make it cluttered. Include the brand name "SalonFlow" and a short supporting line: "Bookings, clients, staff, and reports in one place". Keep the main focal area centered and avoid placing key text near the outer edges. No fake awards, no pricing, no store badges.
+
+SCREENSHOT FRAME PROMPT
+Create a Google Play screenshot marketing frame for a salon management app. Style: premium editorial, soft beige background, violet accent shapes, subtle shadows, modern typography, clean spacing. Leave the real app UI clearly visible and dominant. Add a short top headline area and a smaller support line area. Do not add badges, ratings, or promotional claims. Optimize for portrait phone screenshots.
+
+SCREENSHOT HEADLINES
+1. Headline: See the day at a glance
+   Support line: Track appointments, client names, times, and booking status.
+
+2. Headline: Manage every client record
+   Support line: Keep visit history, phone details, and quick contact actions together.
+
+3. Headline: Run staff and service setup
+   Support line: Update roles, services, pricing, and working hours with less friction.
+
+4. Headline: Track salon performance
+   Support line: Review revenue, top services, and staff activity in one reports view.
+
+TABLET SCREENSHOT PROMPT
+Create a wide promotional screenshot composition for a tablet app called SalonFlow. Show a large, refined salon operations dashboard with calm spacing, elegant cards, and violet accent highlights. Surround the UI with subtle beauty or lifestyle abstract shapes, but keep the app interface primary. Use a premium, professional, non-generic style. No fake numbers like #1 or best app.
+
+PRIVACY POLICY PAGE TITLE
+SalonFlow Privacy Policy
+
+DATA DELETION REQUEST TEXT
+To request deletion of your account-related or business data, contact us at privacy@yourdomain.com with your salon name and registered email.
+
+PLAY STORE ASSET NOTES
+- App name limit: 30 characters
+- Short description limit: 80 characters
+- Full description limit: 4000 characters
+- App icon: 512x512 PNG
+- Feature graphic: 1024x500 JPG or 24-bit PNG
+

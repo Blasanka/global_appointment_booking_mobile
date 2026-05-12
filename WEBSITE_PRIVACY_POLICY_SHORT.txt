@@ -1,0 +1,59 @@
+SALONFLOW WEBSITE PRIVACY POLICY
+
+Effective date: [INSERT DATE]
+
+SalonFlow respects your privacy. This short policy explains what information we handle, why we handle it, and how users can contact us about privacy or deletion requests.
+
+1. WHAT WE COLLECT
+
+SalonFlow may handle:
+- account details such as name, email, phone number, and login information
+- salon business details such as salon name, address, staff records, services, working hours, and settings
+- client management information such as client names, phone numbers, booking history, visit history, and notes
+- operational app data used to support bookings, reports, notifications, and templates
+
+2. HOW WE USE INFORMATION
+
+We use information to:
+- operate the app and its booking, client, staff, and reporting features
+- support salon workflows and business settings
+- provide user-requested contact actions such as calls or WhatsApp actions
+- improve reliability, performance, and support
+
+3. HOW WE SHARE INFORMATION
+
+We do not sell personal information.
+
+We may share information:
+- with service providers who help operate the app
+- when required by law or legal process
+- when necessary to protect security, users, or legal rights
+- with external apps only when the user explicitly starts a call, WhatsApp message, or browser action
+
+4. DATA RETENTION
+
+We keep information only as long as needed for service delivery, support, security, legal compliance, and legitimate business operations.
+
+5. DATA DELETION REQUESTS
+
+To request deletion of account-related or business-related data, contact:
+
+[INSERT PRIVACY EMAIL]
+
+Please include enough details for us to identify the account or salon record. We may retain limited information where required by law, security, fraud prevention, or compliance obligations.
+
+6. SECURITY
+
+We use reasonable technical and organizational safeguards to protect data. However, no system can guarantee absolute security.
+
+7. CONTACT
+
+For privacy questions or requests, contact:
+
+[INSERT PRIVACY EMAIL]
+[INSERT COMPANY OR DEVELOPER NAME]
+[INSERT SUPPORT URL OR BUSINESS ADDRESS]
+
+8. POLICY UPDATES
+
+We may update this policy from time to time. Any changes will be reflected by updating the effective date above.

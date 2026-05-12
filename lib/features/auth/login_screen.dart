@@ -14,6 +14,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  static const _previewEmail = 'owner@salonflow.app';
+  static const _previewPassword = 'salonflow123';
+
   final _emailController = TextEditingController(text: 'owner@salonflow.app');
   final _passwordController = TextEditingController(text: 'salonflow123');
 
@@ -49,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 12),
               const Text(
-                'Preview access is ready. You can sign in with the filled account or enter your own details.',
+                'Use the preview owner account to access the current app build.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: AppColors.muted, fontSize: 13),
               ),
@@ -79,26 +82,21 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: _signIn,
                       child: const Text('Sign In'),
                     ),
-                    const SizedBox(height: 12),
-                    OutlinedButton.icon(
-                      onPressed: _continueWithGoogle,
-                      icon: const Icon(Icons.g_mobiledata_rounded, size: 30),
-                      label: const Text('Continue with Google'),
-                    ),
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         TextButton(
-                          onPressed: _sendReset,
-                          child: const Text('Forgot password?'),
+                          onPressed: _showPreviewAccessInfo,
+                          child: const Text('Preview Access'),
                         ),
-                        TextButton(
-                          onPressed: _createAccount,
-                          child: const Text('Create account'),
-                        ),
+                        const SizedBox.shrink(),
                       ],
                     ),
+                    // Future implementation:
+                    // - Forgot password flow
+                    // - Continue with Google
+                    // - Account creation via web portal or in-app onboarding
                   ],
                 ),
               ),
@@ -116,39 +114,30 @@ class _LoginScreenState extends State<LoginScreen> {
       showAppMessage(context, 'Enter both account and password to continue.');
       return;
     }
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const MainShell()),
-    );
-  }
-
-  void _continueWithGoogle() {
-    _emailController.text = 'owner@salonflow.app';
-    _passwordController.text = 'salonflow123';
-    showAppMessage(context, 'Google account selected. Continuing to dashboard.');
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const MainShell()),
-    );
-  }
-
-  void _sendReset() {
-    final email = _emailController.text.trim();
-    if (email.isEmpty) {
-      showAppMessage(context, 'Enter your account email first.');
+    if (email != _previewEmail || password != _previewPassword) {
+      showAppMessage(
+        context,
+        'Preview access is currently limited to the shared owner account.',
+      );
       return;
     }
-    showAppMessage(context, 'Password reset instructions sent to $email.');
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (_) => const MainShell()),
+    );
   }
 
-  Future<void> _createAccount() async {
+  Future<void> _showPreviewAccessInfo() async {
     await showInfoSheet(
       context,
-      title: 'Account Ready',
+      title: 'Preview Access',
       message:
-          'A preview owner account has been prepared for this device. Continue with the default details to access the dashboard.',
+          'This build currently supports one shared preview owner credential for review: owner@salonflow.app / salonflow123. Account creation, password recovery, and Google sign-in are reserved for future implementation.',
       actionLabel: 'Use Preview Account',
     );
-    if (!mounted) return;
-    _emailController.text = 'owner@salonflow.app';
-    _passwordController.text = 'salonflow123';
+    if (!mounted) {
+      return;
+    }
+    _emailController.text = _previewEmail;
+    _passwordController.text = _previewPassword;
   }
 }
