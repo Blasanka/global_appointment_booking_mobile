@@ -1,10 +1,10 @@
 Android release signing is wired in `app/build.gradle.kts` and reads values from `android/key.properties`.
 
-Files:
+Required local files:
 - `android/key.properties`
 - `upload-keystore.jks` at the repo root
 
-Current `key.properties` template:
+`android/key.properties` should contain:
 
 ```properties
 storePassword=replace-with-keystore-password
@@ -13,7 +13,7 @@ keyAlias=upload
 storeFile=../upload-keystore.jks
 ```
 
-Generate the upload keystore locally with `keytool`:
+Run the keystore command from the repo root so the generated file lands at `./upload-keystore.jks`:
 
 ```powershell
 keytool -genkeypair -v `
@@ -25,9 +25,9 @@ keytool -genkeypair -v `
   -alias upload
 ```
 
-Then replace the placeholder values in `android/key.properties` with the real passwords.
+After `keytool` prompts complete, update `android/key.properties` with the real `storePassword` and `keyPassword` values you entered.
 
-Build the Play Store bundle:
+Create the Play Store bundle with:
 
 ```powershell
 flutter build appbundle --release
