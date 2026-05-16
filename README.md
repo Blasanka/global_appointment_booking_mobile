@@ -1,17 +1,37 @@
-# appointment_booking
+# SalonFlow
 
-A new Flutter project.
+SalonFlow is a Flutter salon management app for bookings, clients, services, staff, reports, and settings.
 
-## Getting Started
+## Project Notes
 
-This project is a starting point for a Flutter application.
+- Android package name: `com.astramind.edgesolutions.salonflow`
+- Release SDK configuration is defined in `android/app/build.gradle.kts`
+- Launcher and splash assets have been updated for Android, iOS, macOS, Windows, and web
 
-A few resources to get you started if this is your first Flutter project:
+## Android Release Signing
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+Android release signing is configured to read from `android/key.properties`.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Required local files:
+
+- `android/key.properties`
+- `upload-keystore.jks` in the repo root
+
+Template:
+
+```properties
+storePassword=replace-with-keystore-password
+keyPassword=replace-with-key-password
+keyAlias=upload
+storeFile=../upload-keystore.jks
+```
+
+Detailed instructions are in [android/RELEASE_SIGNING.md](android/RELEASE_SIGNING.md).
+
+## Release Build
+
+Build the Play Store bundle with:
+
+```powershell
+flutter build appbundle --release
+```
