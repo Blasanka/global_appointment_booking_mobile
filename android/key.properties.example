@@ -1,3 +1,4 @@
+# Copy to android/key.properties and replace with your real values.
 storePassword=replace-with-keystore-password
 keyPassword=replace-with-key-password
 keyAlias=upload
